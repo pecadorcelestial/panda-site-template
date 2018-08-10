@@ -1,7 +1,7 @@
 {
-  "name": "modulo_1b",
+  "name": "panda-site-template",
   "version": "1.0.0",
-  "description": "Modulo #1 del curso de React.",
+  "description": "A 'basic' template to start and run a site using NodeJS, React, Router, Redux, Styled-Components and Webpack.",
   "main": "server.js",
   "scripts": {
     "start": "babel-node --presets es2015,stage-0,react server.js",
@@ -30,7 +30,8 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
-    "styled-components": "^3.3.3"
+    "styled-components": "^3.3.3",
+    "styled-theming": "^2.2.0"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.19",
