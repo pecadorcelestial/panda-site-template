@@ -1,2 +1,3 @@
 # panda-site-template
-A "basic" template to start and run a site using NodeJS, React, Router, Redux, Styled-Components and Webpack.
+
+A _"basic"_ template to start and run a site using **NodeJS**, **React**, **Router**, **Redux**, **Styled-Components** and **Webpack**.

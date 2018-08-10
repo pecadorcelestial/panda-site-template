@@ -1,0 +1,6 @@
+.vscode/
+dist/
+coverage/
+node_modules/
+views/index.ejs
+package-lock.json
