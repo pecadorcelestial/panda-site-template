@@ -21,7 +21,7 @@ This uses the advantages of the [_hot reloading_](https://webpack.js.org/concept
 
 ## Production
 
-The create the corresponding bundles, just run the webpack command and then start up the proyect:
+To create the corresponding bundles, just run the webpack command and then start up the proyect:
 
 ```
 npm run webpack
