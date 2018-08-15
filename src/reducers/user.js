@@ -1,6 +1,6 @@
 import store from '../store/store';
 
-import * as User from '../actions/user';
+import * as User from 'actions/user';
 
 const user = (state = store.user, action) => {
     switch(action.type) {
