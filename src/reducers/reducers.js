@@ -4,6 +4,9 @@ import { combineReducers } from 'redux';
 //Store.
 import store from '../store/store';
 
+//Acciones.
+import * as Actions from 'actions/actions';
+
 //Reductores.
 import user from './user';
 import clients from './clients';

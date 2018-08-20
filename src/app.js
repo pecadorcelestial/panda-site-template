@@ -1,6 +1,6 @@
 //Módulos generales.
 import React from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 //Acciones.
@@ -11,20 +11,6 @@ import Index from './index/index';
 import Login from './login/login';
 
 class App extends React.Component {
-    //*** CONSTRUCTOR ***
-    constructor(props) {
-        super(props);
-        if(__CLIENT__) {
-            if (window.performance && performance.navigation.type == 1) {
-                //La pagina se actualizó (con F5 o navegación manual).
-                let localStore = localStorage.getItem('reduxStore');
-                if(localStore) {
-                    //Aquí se debe "despachar" una acción que inicialize el "store".
-                    this.props.initializeStore(JSON.parse(localStore));
-                }
-            }
-        }
-    }
     //*** FUNCIONES DEL CICLO DE VIDA DE LA PAGINA ***
     componentDidMount() {
         if(__CLIENT__) {

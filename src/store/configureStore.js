@@ -1,5 +1,15 @@
-import { createStore } from 'redux';
+//Módulos generales.
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+
+//Reductores.
 import Reducers from 'reducers/reducers';
+
+//Store inicial.
+import Store from './store';
+
+//Funciones.
+import { loadState } from './localStorage';
 
 const configureStore = () => {
 
@@ -46,7 +56,7 @@ const configureStore = () => {
     //    S   T   O   O R   R E
     //SSSS    T    OOO  R   R EEEEE
 
-    const store = createStore(Reducers);
+    const store = createStore(Reducers, loadState(Store), Enhancer);
     return store;
 }
 

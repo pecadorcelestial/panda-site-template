@@ -18,8 +18,7 @@ const store = {
             services: []
         },
         list: []
-    },
-    catalogs: {}
+    }
 };
 
 export default store;
