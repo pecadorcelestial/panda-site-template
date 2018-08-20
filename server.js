@@ -90,11 +90,11 @@ if(process.env.NODE_ENV === 'development') {
 
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname + '/views'));
+app.use('/dist', express.static(__dirname + '/dist'));
 app.use(function(request, response, next) {
     response.setHeader('Access-Control-Allow-Origin', '*');
     next();
 });
-app.use('/dist', express.static(__dirname + '/dist'));
 
 //U   U N   N H   H  AAA  N   N DDDD  L     EEEEE DDDD
 //U   U NN  N H   H A   A NN  N D   D L     E     D   D
@@ -122,53 +122,17 @@ app.use(cookieParser());
 //R   R E         S P     U   U E         S   T   A   A
 //R   R EEEEE SSSS  P      UUU  EEEEE SSSS    T   A   A
 
+//NOTA: Para poder hacer uso de la variable __CLIENT__ se debe inicializar/definir de la siguiente manera:
+global.__CLIENT__ = false;
+global.__SERVER__ = true;
+
 import App from './src/app';
 
 app.use((request, response) => {
-    console.log('[NODE][SERVER] NODE_ENV = ', process.env.NODE_ENV);
     if(process.env.NODE_ENV === 'development') {
-        //NOTA: Router utiliza el objeto "context" para devolver la URL solicitada, sólo en el caso de usar "StatucRouter" como en el servidor.
-        //https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/StaticRouter.md
-        const context={};
-        if(context.url) {
-            response.redirect(302, context.url);
-            response.end();
-        } else {
-            //Pasos para generar las hojas de estilos a partir de componentes estilizados.
-            //https://medium.com/styled-components/the-simple-guide-to-server-side-rendering-react-with-styled-components-d31c6b2b8fbf
-            //1. Se crea la hoja de estilos.
-            const sheet = new ServerStyleSheet();
-            //2. Se crea y configura el store.
-            const store = createStore(Store);
-            //2. Se genera el HTML a partir de la función 'renderToString'.
-            //   En este paso se deben recolectar los estilos.
-            const html = renderToString(sheet.collectStyles(
-                <Provider store={store}>
-                    <StaticRouter location={request.url} context={context}>
-                        <App />
-                    </StaticRouter>
-                </Provider>
-            ));
-            //3. Se obtienen los 'tags' de estilos.
-            const styles = sheet.getStyleTags();
-            //4. Se "sanitiza" la información a almacenar en el store.
-            //Opción #1 - Utilizar la función 'escape' de JavaScript.
-            //https://www.w3schools.com/jsref/jsref_escape.asp
-            //Opción #2 - Utilizar el módulo 'serialize-javascript' de Yahoo.
-            //https://github.com/yahoo/serialize-javascript        
-            let newStore;
-            let reduxState;
-            try {
-                newStore = util.inspect(store.getState(), true, null).replace(/\s\[length\]\:\s\d+\s/gim, '');
-                newStore = JSON.parse(JSON.stringify(eval("(" + newStore + ")")));
-                reduxState = escape(JSON.stringify(newStore));
-            } catch(e) {
-                newStore={};
-                reduxState='';
-            }
-            //5. Se devuelve la pagina.
-            response.status(200).render('index.dev.ejs');
-        }
+        //NOTA: En mode "desarrollo" no se utiliza el ROUTER aquí, se resuelve a través de WEBPACK.
+        //Se devuelve la pagina.
+        response.status(200).render('index.dev.ejs');
     } else if(process.env.NODE_ENV === 'production') {
         //NOTA: Router utiliza el objeto "context" para devolver la URL solicitada, sólo en el caso de usar "StatucRouter" como en el servidor.
         //https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/api/StaticRouter.md
@@ -222,3 +186,18 @@ app.use((request, response) => {
 app.listen(3000, function() {
     console.log('La aplicaciones esta corriendo en el puerto 3000.');
 })
+
+/*
+░░░░░░░░▄▄█▀▀▄░░░░░░░ 
+░░░░░░▄█████▄▄█▄░░░░░ 
+░░░░░▄▀██████▄▄██░░░░ 
+░░░░░█░█▀░░▄▄▀█░█░░░░ 
+░░░░░▄██░░░▀▀░▀░█░░░░ 
+░░▄█▀░░▀█░▀▀▀▀▄▀▀█▄░░ 
+░▄███░▄░░▀▀▀▀▀▄░███▄░ 
+░██████░░░░░░░██████░ 
+░▀███▀█████████▀███▀░ 
+░░░░▄█▄░▀▀█▀░░░█▄░░░░ 
+░▄▄█████▄▀░▀▄█████▄▄░ 
+█████████░░░█████████
+*/

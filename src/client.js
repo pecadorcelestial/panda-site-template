@@ -1,12 +1,19 @@
+//Módulos generales.
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter  } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
+//Componente local.
 import App from './app';
 
+//Store.
 const store = configureStore();
+
+//NOTA: Para poder hacer uso de la variable __CLIENT__ se debe inicializar/definir de la siguiente manera:
+global.__CLIENT__ = true;
+global.__SERVER__ = false;
 
 export default class Routes extends React.Component {
     render() {
