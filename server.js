@@ -26,7 +26,8 @@ import { renderToString } from 'react-dom/server';
 //R   R O   O U   U   T   E     R   R
 //R   R  OOO   UUU    T   EEEEE R   R
 
-import { StaticRouter } from 'react-router-dom';
+import { matchPath, StaticRouter } from 'react-router-dom';
+import Routes from './src/routes';
 
 //RRRR  EEEEE DDDD  U   U X   X
 //R   R E     D   D U   U  X X
@@ -141,43 +142,81 @@ app.use((request, response) => {
             response.redirect(302, context.url);
             response.end();
         } else {
-            //Pasos para generar las hojas de estilos a partir de componentes estilizados.
-            //https://medium.com/styled-components/the-simple-guide-to-server-side-rendering-react-with-styled-components-d31c6b2b8fbf
-            //1. Se crea la hoja de estilos.
-            const sheet = new ServerStyleSheet();
-            //2. Se crea y configura el store.
+            //1. Se crea y configura el store.
             const store = createStore(Store);
-            //2. Se genera el HTML a partir de la función 'renderToString'.
-            //   En este paso se deben recolectar los estilos.
-            const html = renderToString(sheet.collectStyles(
-                <Provider store={store}>
-                    <StaticRouter location={request.url} context={context}>
-                        <App />
-                    </StaticRouter>
-                </Provider>
-            ));
-            //3. Se obtienen los 'tags' de estilos.
-            const styles = sheet.getStyleTags();
-            //4. Se "sanitiza" la información a almacenar en el store.
-            //Opción #1 - Utilizar la función 'escape' de JavaScript.
-            //https://www.w3schools.com/jsref/jsref_escape.asp
-            //Opción #2 - Utilizar el módulo 'serialize-javascript' de Yahoo.
-            //https://github.com/yahoo/serialize-javascript        
-            let newStore;
-            let reduxState;
-            try {
-                newStore = util.inspect(store.getState(), true, null).replace(/\s\[length\]\:\s\d+\s/gim, '');
-                newStore = JSON.parse(JSON.stringify(eval("(" + newStore + ")")));
-                reduxState = escape(JSON.stringify(newStore));
-            } catch(e) {
-                newStore={};
-                reduxState='';
-            }
-            //5. Se devuelve la pagina.
-            response.status(200).render('index', {
-                root: html,
-                styles: (styles !== undefined ? styles : ''),
-                reduxState
+            //2. Se crean las promesas, cada pagina (tal vez) tenga una función para obtener la información inicial necesaria para "pintarse" de manera correcta.
+            const promises = [];
+            //Se revisa si existe alguna función tipo "fetch" en las rutas.
+            Routes.some(route => {
+                const match = matchPath(request.path, route);
+                if(match) {
+                    //Se obtiene la función tipo "fetch" o en su defecto, una promes "dummy".
+                    const loadData = route.component.loadData || (() => Promise.resolve());
+                    //Si se encontró alguna ruta, se deben obtener los parámetros necesarios (posibles).
+                    //En este caso: a) store, b) location, c) params y d) query.
+                    //STORE.
+                    //Está más abajo... hay que subirlo.
+                    //LOCATION.
+                    const location = request.path; //sanitizeText(req.path);
+                    //PARAMS.
+                    let params = {};
+                    for(let key in match.params) {
+                        let obj = match.params[key];
+                        params[key] = obj; //sanitizeText(obj);
+                    }
+                    //QUERY.
+                    const query = request.query;
+                    //Finalmente se agrega la promesa al arreglo.
+                    promises.push(loadData({ store, location, params, query }));
+                }
+                //Se debe devolver la ruta encontrada ya que así lo requiere la función "some".
+                return match;
+            });
+            //3. Se ejecutan las promesas pendientes y con el resultado se "pinta" la pagina solicitada.
+            Promise.all(promises)
+            .then(result => {
+                //ÉXITO.
+                //Pasos para generar las hojas de estilos a partir de componentes estilizados.
+                //https://medium.com/styled-components/the-simple-guide-to-server-side-rendering-react-with-styled-components-d31c6b2b8fbf
+                //4. Se crea la hoja de estilos.
+                const sheet = new ServerStyleSheet();
+                //5. Se genera el HTML a partir de la función 'renderToString'.
+                //   En este paso se deben recolectar los estilos.
+                const html = renderToString(sheet.collectStyles(
+                    <Provider store={store}>
+                        <StaticRouter location={request.url} context={context}>
+                            <App />
+                        </StaticRouter>
+                    </Provider>
+                ));
+                //6. Se obtienen los 'tags' de estilos.
+                const styles = sheet.getStyleTags();
+                //7. Se "sanitiza" la información a almacenar en el store.
+                //Opción #1 - Utilizar la función 'escape' de JavaScript.
+                //https://www.w3schools.com/jsref/jsref_escape.asp
+                //Opción #2 - Utilizar el módulo 'serialize-javascript' de Yahoo.
+                //https://github.com/yahoo/serialize-javascript        
+                let newStore;
+                let reduxState;
+                try {
+                    newStore = util.inspect(store.getState(), true, null).replace(/\s\[length\]\:\s\d+\s/gim, '');
+                    newStore = JSON.parse(JSON.stringify(eval("(" + newStore + ")")));
+                    reduxState = escape(JSON.stringify(newStore));
+                } catch(e) {
+                    newStore={};
+                    reduxState='';
+                }
+                //8. Se devuelve la pagina.
+                response.status(200).render('index', {
+                    root: html,
+                    styles: (styles !== undefined ? styles : ''),
+                    reduxState
+                });
+            })
+            .catch(error => {
+                //ERROR.
+                console.error('[NODE][SERVER][ROUTER] ERROR', error);
+                response.status(500).end();
             });
         }
     }

@@ -1,10 +1,14 @@
 //Módulos generales.
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 //Componentes generales.
 import Header from './header';
+
+//Acciones.
+import { setSectionTitle } from 'actions/site';
 
 //Componentes estilizados.
 const Layout = styled.div`
@@ -120,4 +124,21 @@ class Index extends Component {
     }
 }
 
-export default withRouter(Index);
+Index.loadData = ({ store, location, params, query }) => {
+    store.dispatch(setSectionTitle('Home | Pagina de inicio.'));
+};
+
+const mapStateToProps = (state) => {
+    return {
+        site: state.site
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        //Sitio.
+        setSectionTitle: (title) => {dispatch(setSectionTitle(title))}
+    }
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));

@@ -3,12 +3,13 @@ import React from 'react';
 import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+//Rutas.
+import Routes from './routes';
+
 //Acciones.
 import { initializeStore } from 'actions/actions';
 
 //Componentes locales.
-import Index from './index/index';
-import Login from './login/login';
 
 class App extends React.Component {
     //*** FUNCIONES DEL CICLO DE VIDA DE LA PAGINA ***
@@ -46,13 +47,15 @@ class App extends React.Component {
                     </li>
                 </ul>
                 <Switch>
-                    <Route exact path='/' render={(props) => (<Index {...props} isLogged={true} buttonTitle='Contar'/>)}/>
-                    <Route path='/login' component={Login}/>
+                    {
+                        Routes.map(route => <Route {...route} onSuccess={this.handleAppSuccess} onError={this.handleAppError} onWorking={this.handleAppWorking}/>)
+                    }
                 </Switch>
             </div>
         );
     }
 }
+
 const mapStateToProps = (state) => {
     return {
         store: state

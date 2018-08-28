@@ -13,7 +13,7 @@ module.exports = {
         path: path.join(__dirname + '/dist'),
         filename: '[name].[hash].bundle.js',
         chunkFilename: '[name].js',
-        publicPath: '/'
+        publicPath: '/dist'
     },
     resolve: {
         alias: {

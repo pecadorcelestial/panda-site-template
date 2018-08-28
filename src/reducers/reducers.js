@@ -8,11 +8,12 @@ import store from '../store/store';
 import * as Actions from 'actions/actions';
 
 //Reductores.
+import site from './site';
 import user from './user';
 import clients from './clients';
 
 //Reductor combinado.
-const AppReducers = combineReducers({ user, clients });
+const AppReducers = combineReducers({ site, user, clients });
 
 //Reductor.
 const Reducers = (state = store, action) => {

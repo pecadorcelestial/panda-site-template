@@ -1,4 +1,13 @@
 const store = {
+    site: {
+        section: {
+            title: ''
+        },
+        page: {
+            title: '',
+            description: ''
+        },
+    },
     user: {
         name: '',
         lastName: '',
