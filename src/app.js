@@ -48,7 +48,7 @@ class App extends React.Component {
                 </ul>
                 <Switch>
                     {
-                        Routes.map(route => <Route {...route} onSuccess={this.handleAppSuccess} onError={this.handleAppError} onWorking={this.handleAppWorking}/>)
+                        Routes.map((route, index) => <Route key={`route-${index}`} {...route} onSuccess={this.handleAppSuccess} onError={this.handleAppError} onWorking={this.handleAppWorking}/>)
                     }
                 </Switch>
             </div>

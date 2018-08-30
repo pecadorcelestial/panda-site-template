@@ -19,7 +19,7 @@ const configureStore = () => {
     //H   H O   O   T        R   R E     L     O   O A   A D   D
     //H   H  OOO    T        R   R EEEEE LLLLL  OOO  A   A DDDD
 
-    if(process.env.NODE_ENV === 'development' && module.hot) {
+    if(process.env.NODE_ENV.trim().toLowerCase() === 'development' && module.hot) {
         module.hot.accept('reducers/reducers', () => {
             //const nextRootReducer = combineReducers({ Reducers });
             store.replaceReducer(require('reducers/reducers').default);

@@ -114,9 +114,9 @@ class Index extends Component {
             <Layout>
                 <Header ref={header => { this.HeaderRef = header && header.getWrappedInstance(); }}/>
                 <Title>{this.state.title + this.state.counter}</Title>
-                <Button theme='blue' type='button' onClick={this.handleAdd1ToCounterOnClick}>{this.props.buttonTitle}</Button>
+                <Button theme='blue' type='button' onClick={this.handleAdd1ToCounterOnClick}>+1</Button>
                 <br/>
-                <Button theme='red' type='button' onClick={() => { this.HeaderRef.changeTitle('Nuevo encabezado'); }}>Cambiar encabezado</Button>
+                <Button theme='red' type='button' onClick={() => { this.HeaderRef.changeTitle('New title'); }}>Change title</Button>
                 <br/>
                 <StyledLink to='/login'>Login</StyledLink>
             </Layout>

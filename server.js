@@ -61,7 +61,8 @@ import util from 'util';
 //WW WW E     B   B P     A   A C     K  K
 //W   W EEEEE BBBB  P     A   A  CCCC K   K
 
-if(process.env.NODE_ENV === 'development') {
+console.log('ENVIRONMENT: ', process.env.NODE_ENV);
+if(process.env.NODE_ENV.trim().toLowerCase() === 'development') {
     //Paso 1: Se crea y configura el compilador de webpack.
     const webpack = require('webpack');
     const webpackConfig = require('./webpack.dev.config');
@@ -92,7 +93,7 @@ if(process.env.NODE_ENV === 'development') {
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname + '/views'));
 app.use('/dist', express.static(__dirname + '/dist'));
-app.use(function(request, response, next) {
+app.use((request, response, next) => {
     response.setHeader('Access-Control-Allow-Origin', '*');
     next();
 });
@@ -222,7 +223,7 @@ app.use((request, response) => {
     }
 });
 
-app.listen(3001, function() {
+app.listen(3001, () => {
     console.log('La aplicaciones esta corriendo en el puerto 3001.');
 })
 

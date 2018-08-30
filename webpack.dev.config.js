@@ -19,7 +19,7 @@ module.exports = {
     output: {
         path: path.join(__dirname + '/dist'),
         filename: '[name].bundle.js',
-        chunkFilename: '[id].js',
+        chunkFilename: '[name].js',
         publicPath: '/'
     },
     resolve: {
@@ -42,40 +42,29 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                options: {
-                    presets: ['es2015', 'stage-0', 'react']
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react']
+                    }
                 }
             }
         ]
     },
     optimization: {
         splitChunks: {
-            chunks: 'async',
-            minSize: 30000,
-            maxSize: 0,
-            minChunks: 1,
-            maxAsyncRequests: 5,
-            maxInitialRequests: 3,
-            automaticNameDelimiter: '~',
+            chunks: 'all',
             name: true,
             cacheGroups: {
                 vendors: {
-                    chunks: "initial",
-                    name: "vendor",
-                    test: /[\\/]node_modules[\\/]/,
-                    enforce: true
+                    chunks: 'all',
+                    name: 'vendors',
+                    test: /[\\/]node_modules[\\/]/
                 },
                 commons: {
-                    chunks: "initial",
-                    minChunks: 3,
-                    name: "commons",
-                    enforce: true
-                },
-                default: {
+                    chunks: 'all',
                     minChunks: 2,
-                    priority: -20,
-                    reuseExistingChunk: true
+                    name: 'commons'
                 }
             }
         }

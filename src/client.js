@@ -29,6 +29,6 @@ export default class Routes extends React.Component {
 
 ReactDOM.render(<Routes/>, document.getElementById("root"));
 
-if(process.env.NODE_ENV === 'development' && module.hot) {
+if(process.env.NODE_ENV.trim().toLowerCase() === 'development' && module.hot) {
     module.hot.accept();
 }
