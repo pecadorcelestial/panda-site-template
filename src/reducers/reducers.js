@@ -20,6 +20,7 @@ const Reducers = (state = store, action) => {
     switch(action.type) {
         case Actions.INITIALIZE_STORE:
             state = Object.assign({}, state, {
+                site: action.value.site,
                 user: action.value.user,
                 clients: action.value.clients
             });

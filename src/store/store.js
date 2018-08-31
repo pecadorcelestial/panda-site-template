@@ -22,6 +22,7 @@ const store = {
     },
     clients: {
         client: {
+            info: {},
             contact: {},
             billing: {},
             services: []

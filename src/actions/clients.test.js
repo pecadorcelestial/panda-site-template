@@ -33,15 +33,15 @@ describe('[Acción][Guardar] Información del cliente.', () => {
             clientTypeId: 1
         };
 		const expectedAction = {
-			type: Actions.CLIENTS_CLIENT,
+			type: Actions.CLIENT_INFO,
 			value: client
 		};
-		expect(Actions.saveClientsClient(client)).toEqual(expectedAction);
+		expect(Actions.saveClientInfo(client)).toEqual(expectedAction);
 	});
 });
 
 describe('[Acción][Guardar] Listado de clientes.', () => {
-	it('Debe crear una acción para guardar la información del cliente.', () => {
+	it('Debe crear una acción para guardar el listado de clientes.', () => {
         const list = [
             {
                 name: '',
