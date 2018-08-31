@@ -1,6 +1,13 @@
 # &#128060; panda-site-template
 
-A _"basic"_ template to start and run a site using **NodeJS**, **React**, **Router**, **Redux**, **Styled-Components** and **Webpack**.
+A _"not-so-basic"_ template to start and run a site using **NodeJS**, **React**, **Router**, **Redux**, **Styled-Components** and **Webpack**.
+
+## Features
+
+- **Webpack** (_development_): Hot module reload (fully functional even with **Redux**).
+- **Webpack** (_production_): Bundle optimization, minification and code split (it includes separation for the **vendor** and **common** bundles).
+- **Router**: 1 file with the _routes_ definition, implementation of dynamic module creation / loading, separation of the client and server side functionality.
+- **Redux**: Examples of _actions_, _reducers_ and _combined reducers_. The ``local storage`` is used to maintain the state even on page reload.
 
 ## Start Up
 
@@ -21,11 +28,8 @@ This uses the advantages of the [_hot reloading_](https://webpack.js.org/concept
 
 ## Production
 
-To create the corresponding bundles, just run the webpack command and then start up the proyect:
+To create the corresponding bundles, just run the start script, this will first create the corresponding bundles and then it will start up the server:
 
-```
-npm run webpack
-```
 ```
 npm start
 ```

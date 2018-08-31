@@ -5,10 +5,9 @@
   "main": "server.js",
   "scripts": {
     "prestart": "webpack -p",
-    "start": "babel-node --presets @babel/env,@babel/react --plugins @babel/plugin-syntax-dynamic-import,dynamic-import-node,transform-class-properties server.js",
+    "start": "set NODE_ENV=production && babel-node --presets @babel/env,@babel/react --plugins @babel/plugin-syntax-dynamic-import,dynamic-import-node,transform-class-properties server.js",
     "start:dev": "set NODE_ENV=development && babel-node --presets @babel/env,@babel/react --plugins @babel/plugin-syntax-dynamic-import,dynamic-import-node,transform-class-properties server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack": "webpack --config webpack.prod.config.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Francisco Rodriguez",
   "license": "ISC",
