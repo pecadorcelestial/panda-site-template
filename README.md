@@ -1,4 +1,4 @@
-# &#128060; panda-site-template
+# &#128060; Panda Site Template
 
 A _"not-so-basic"_ template to start and run a site using **NodeJS**, **React**, **Router**, **Redux**, **Styled-Components** and **Webpack**.
 

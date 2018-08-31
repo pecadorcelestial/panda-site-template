@@ -7,7 +7,7 @@
     "prestart": "webpack -p",
     "start": "set NODE_ENV=production && babel-node --presets @babel/env,@babel/react --plugins @babel/plugin-syntax-dynamic-import,dynamic-import-node,transform-class-properties server.js",
     "start:dev": "set NODE_ENV=development && babel-node --presets @babel/env,@babel/react --plugins @babel/plugin-syntax-dynamic-import,dynamic-import-node,transform-class-properties server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage"
   },
   "author": "Francisco Rodriguez",
   "license": "ISC",
@@ -31,6 +31,8 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.2",
     "babel-loader": "^8.0.0",
     "babel-plugin-dynamic-import-node": "^2.1.0",
     "babel-plugin-module-resolver": "^3.1.1",
@@ -41,10 +43,21 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.5.0",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
     "webpack-dev-middleware": "^3.2.0",
     "webpack-dev-server": "^3.1.7",
     "webpack-hot-middleware": "^2.22.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "bower_components"
+    ]
   }
 }
