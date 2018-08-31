@@ -8,6 +8,8 @@ A _"not-so-basic"_ template to start and run a site using **NodeJS**, **React**,
 - **Webpack** (_production_): Bundle optimization, minification and code split (it includes separation for the **vendor** and **common** bundles).
 - **Router**: 1 file with the _routes_ definition, implementation of dynamic module creation / loading, separation of the client and server side functionality.
 - **Redux**: Examples of _actions_, _reducers_ and _combined reducers_. The ``local storage`` is used to maintain the state even on page reload.
+- **Unit Tests**: UTs examples for ``actions`` and ``reducers``.
+- **Coming soon...**: UTs examples for ``asynchronous`` calls and maybe for ``components`` (using **JSDOM**).
 
 ## Start Up
 
